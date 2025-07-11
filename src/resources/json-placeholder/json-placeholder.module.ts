@@ -10,6 +10,10 @@ import { TransactionService } from './services/transaction.service';
     HttpModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        baseURL: configService.get<string>('FAKE_API_URL'),
+        timeout: 5000,
+      }),
     }),
   ],
   providers: [TransactionService, TransactionHttpService],
