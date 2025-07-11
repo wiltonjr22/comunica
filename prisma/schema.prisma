@@ -21,7 +21,7 @@ model Communications {
   status          String                @db.VarChar(30)
   autor           String                @db.VarChar(30)
   data_criacao    DateTime              @default(now())
-  deletado_em     DateTime?             @default(now())
-  data_envio      DateTime?             @default(now())
+  deletado_em     DateTime?       
+  data_envio      DateTime?             
   active          Boolean               @default(true)
 }
