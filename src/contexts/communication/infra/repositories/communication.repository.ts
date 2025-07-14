@@ -4,6 +4,7 @@ import { ICommunicationRepository } from "../interfaces/communication.repository
 import { CreateCommunicationDto } from "../../presentation/dtos/create.dto";
 import { CommunicationEntity, StatusTipo } from "../../commom/entities/communication.entities";
 import { UpdateCommunicationDto } from "../../presentation/dtos/update.dto";
+import { CommunicationFilterDto } from "../../presentation/dtos/get.dto";
 
 @Injectable()
 export class CommunicationRepository implements ICommunicationRepository {
@@ -21,9 +22,40 @@ export class CommunicationRepository implements ICommunicationRepository {
     });
   }
 
-  async findAll(): Promise<CommunicationEntity[]> {
-    const communications = await this.prisma.communications.findMany();
-    return communications.map(this.toEntity);
+  async findAll(filter: CommunicationFilterDto): Promise<{ data: CommunicationEntity[]; total: number }> {
+    const {
+      status,
+      tipo_canal,
+      autor,
+      startDate,
+      endDate,
+      limit = 10,
+      offset = 0,
+    } = filter;
+
+    const where: any = {};
+    if (status) where.status = status;
+    if (tipo_canal) where.tipo_canal = tipo_canal;
+    if (autor) where.autor = autor;
+    if (startDate || endDate) {
+      where.data_criacao = {};
+      if (startDate) where.data_criacao.gte = new Date(startDate);
+      if (endDate) where.data_criacao.lte = new Date(endDate);
+    }
+
+    const [dataRaw, total] = await Promise.all([
+      this.prisma.communications.findMany({
+        where,
+        skip: offset,
+        take: limit,
+        orderBy: { data_criacao: 'desc' },
+      }),
+      this.prisma.communications.count({ where }),
+    ]);
+
+    const data = dataRaw.map(item => this.toEntity(item));
+
+    return { data, total };
   }
 
   async findById(id: string): Promise<CommunicationEntity | null> {
