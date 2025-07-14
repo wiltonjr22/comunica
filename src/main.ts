@@ -4,10 +4,13 @@ import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import AddSwagger from "./resources/swagger/add-swagger";
 import { JwtAuthGuard } from "./contexts/auth/application/services/jwt-auth.guard";
+import { HttpExceptionFilter } from "./resources/errors-handler";
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const reflector = app.get(Reflector);
   app.useGlobalGuards(new JwtAuthGuard(reflector));
