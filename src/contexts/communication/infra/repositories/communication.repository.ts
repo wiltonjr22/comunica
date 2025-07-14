@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "@/resources/database/prisma/prisma.service";
 import { ICommunicationRepository } from "../interfaces/communication.repository";
 import { CreateCommunicationDto } from "../../presentation/dtos/create.dto";
@@ -8,9 +8,12 @@ import { CommunicationFilterDto } from "../../presentation/dtos/get.dto";
 
 @Injectable()
 export class CommunicationRepository implements ICommunicationRepository {
+  private readonly logger = new Logger(CommunicationRepository.name);
+
   constructor(private readonly prisma: PrismaService) { }
 
   async create(data: CreateCommunicationDto): Promise<void> {
+    this.logger.log(`Criando comunicado: ${data.titulo}`);
     await this.prisma.communications.create({
       data: {
         titulo: data.titulo,
@@ -20,9 +23,12 @@ export class CommunicationRepository implements ICommunicationRepository {
         autor: data.autor,
       },
     });
+    this.logger.log('Comunicado criado no banco de dados.');
   }
 
   async findAll(filter: CommunicationFilterDto): Promise<{ data: CommunicationEntity[]; total: number }> {
+    this.logger.log('Buscando comunicados com filtros...');
+
     const {
       status,
       tipo_canal,
@@ -53,21 +59,31 @@ export class CommunicationRepository implements ICommunicationRepository {
       this.prisma.communications.count({ where }),
     ]);
 
-    const data = dataRaw.map(item => this.toEntity(item));
+    this.logger.log(`${total} comunicado(s) encontrado(s).`);
 
+    const data = dataRaw.map(item => this.toEntity(item));
     return { data, total };
   }
 
   async findById(id: string): Promise<CommunicationEntity | null> {
+    this.logger.log(`Buscando comunicado por ID: ${id}`);
     const communication = await this.prisma.communications.findUnique({ where: { id } });
+
+    if (!communication) {
+      this.logger.warn(`Comunicado com ID ${id} não encontrado no banco.`);
+      return null;
+    }
+
+    this.logger.log(`Comunicado encontrado: ${communication.titulo}`);
     return this.toEntity(communication);
   }
 
   async update(id: string, data: UpdateCommunicationDto): Promise<CommunicationEntity> {
+    this.logger.log(`Atualizando comunicado com ID: ${id}`);
     const communication = await this.prisma.communications.update({ where: { id }, data });
+    this.logger.log(`Comunicado com ID ${id} atualizado com sucesso.`);
     return this.toEntity(communication);
   }
-
 
   private toEntity(communication: any): CommunicationEntity {
     if (!communication) return null;
