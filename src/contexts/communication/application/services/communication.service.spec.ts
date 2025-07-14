@@ -26,7 +26,6 @@ describe('CommunicationService', () => {
     service = module.get<CommunicationService>(CommunicationService);
     repository = module.get(ICommunicationRepository);
 
-    // Optionally spy on logger to avoid clutter in test output
     jest.spyOn(Logger.prototype, 'log').mockImplementation(() => { });
     jest.spyOn(Logger.prototype, 'warn').mockImplementation(() => { });
   });
