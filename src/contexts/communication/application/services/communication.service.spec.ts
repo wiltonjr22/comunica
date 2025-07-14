@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException, Logger } from '@nestjs/common';
 import { ICommunicationRepository } from '../../infra/interfaces/communication.repository';
 import { CommunicationService } from './communication.service';
+import { CommunicationEntity } from '../../commom/entities/communication.entities';
 
 describe('CommunicationService', () => {
   let service: CommunicationService;
