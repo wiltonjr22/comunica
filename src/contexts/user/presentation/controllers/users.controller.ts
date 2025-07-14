@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../../../auth/application/services/jwt-auth.guard";
-import { UserService } from '../../application/service/users.service';
 import { UpdatePasswordDto } from '../dtos/update.dto';
+import { IUserService } from '../../application/interfaces/user.service.interface';
 @ApiTags('user')
 @Controller('user')
 export class UsersController {
-  constructor(private readonly usersService: UserService) { }
+  constructor(private readonly usersService: IUserService) { }
 
   @UseGuards(JwtAuthGuard)
   @ApiSecurity('access-key')
