@@ -11,6 +11,9 @@
     "start:prod": "node dist/src/main",
     "test": "jest"
   },
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
   "dependencies": {
     "@nestjs/axios": "3.0.3",
     "@nestjs/common": "10.4.19",
