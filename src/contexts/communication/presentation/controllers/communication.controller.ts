@@ -1,19 +1,23 @@
-import { Controller, Get, Post, Delete, Param, Body, Put, Query, Logger } from "@nestjs/common";
+import { Controller, Get, Post, Delete, Param, Body, Put, Query, Logger, UseGuards } from "@nestjs/common";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
 import { CreateCommunicationDto } from "../dtos/create.dto";
 import { UpdateCommunicationDto } from "../dtos/update.dto";
 import { CommunicationFilterDto } from "../dtos/get.dto";
 import { CommunicationEntity } from "../../commom/entities/communication.entities";
 import { ICommunicationService } from "../../application/interfaces/communication.service";
+import { RolesGuard } from "@/contexts/auth/application/services/roles.guard";
+import { Roles } from "@/contexts/auth/application/services/roles";
 
 @ApiTags("Comunicados")
 @Controller("comunicados")
+@UseGuards(RolesGuard)
 export class CommunicationController {
   private readonly logger = new Logger(CommunicationController.name);
 
   constructor(private readonly communicationService: ICommunicationService) { }
 
   @Post()
+  @Roles('ADMIN', 'ROOT')
   @ApiOperation({ summary: "Criação de comunicado" })
   async create(@Body() dto: CreateCommunicationDto) {
     this.logger.log("Requisição recebida para criar um novo comunicado.");
