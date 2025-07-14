@@ -4,6 +4,7 @@ import { CreateCommunicationDto } from "../../presentation/dtos/create.dto";
 import { CommunicationEntity } from "../../commom/entities/communication.entities";
 import { UpdateCommunicationDto } from "../../presentation/dtos/update.dto";
 import { ICommunicationRepository } from "../../infra/interfaces/communication.repository";
+import { CommunicationFilterDto } from "../../presentation/dtos/get.dto";
 
 @Injectable()
 export class CommunicationService implements ICommunicationService {
@@ -14,8 +15,8 @@ export class CommunicationService implements ICommunicationService {
     await this.communicationRepository.create(createCommunicationDto);
   }
 
-  async findAll(): Promise<CommunicationEntity[]> {
-    return await this.communicationRepository.findAll();
+  async findAll(filter: CommunicationFilterDto): Promise<{ data: CommunicationEntity[]; total: number }> {
+    return await this.communicationRepository.findAll(filter);
   }
 
   async findOne(id: string): Promise<CommunicationEntity> {
