@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
+import { Public } from './public.jwt';
 
 @Controller('health')
 export class HealthController {
   constructor() { }
 
+  @Public()
   @Get()
   async getHealth() {
     try {
