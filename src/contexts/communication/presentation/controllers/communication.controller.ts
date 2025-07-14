@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Delete, Param, Body, Put } from "@nestjs/common";
+import { Controller, Get, Post, Delete, Param, Body, Put, Query } from "@nestjs/common";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
 import { CommunicationService } from "../../application/services/communication.service";
 import { CreateCommunicationDto } from "../dtos/create.dto";
 import { UpdateCommunicationDto } from "../dtos/update.dto";
+import { CommunicationFilterDto } from "../dtos/get.dto";
+import { CommunicationEntity } from "../../commom/entities/communication.entities";
 
 @ApiTags("Communication")
 @Controller("communication")
@@ -16,9 +18,8 @@ export class CommunicationController {
   }
 
   @Get()
-  @ApiOperation({ summary: "Fetch all communications" })
-  async findAll() {
-    return this.communicationService.findAll();
+  async findAll(@Query() filter: CommunicationFilterDto): Promise<{ data: CommunicationEntity[]; total: number }> {
+    return this.communicationService.findAll(filter);
   }
 
   @Get(":id")
