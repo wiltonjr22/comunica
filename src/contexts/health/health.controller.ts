@@ -1,18 +1,17 @@
-import { Controller, Get } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
-import packageJson from "../../../package.json";
-import { Public } from "./public.jwt";
+import { Controller, Get } from '@nestjs/common';
+import { PrismaService } from '../../resources/database/prisma/prisma.service';
 
-@ApiTags("Health")
-@Controller("health")
+@Controller('health')
 export class HealthController {
-  constructor() { }
+  constructor(private readonly prisma: PrismaService) { }
 
-  @Public()
   @Get()
-  @ApiOperation({ summary: "Health check endpoint" })
-  getHealth() {
-    const { name, version } = packageJson;
-    return `Application: ${name}, Version: ${version}`;
+  async getHealth() {
+    try {
+      await this.prisma.$queryRaw`SELECT 1`;
+      return { status: 'ok', database: 'up' };
+    } catch (error) {
+      return { status: 'error', database: 'down', error: error.message };
+    }
   }
 }
