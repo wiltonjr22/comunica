@@ -75,7 +75,7 @@ You can interact with all API endpoints here.
 Run unit tests with:
 
 ```bash
-npm run test
+npm run t
 ```
 
 - Tests cover controllers and services, using mocks for external dependencies.
