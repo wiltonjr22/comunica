@@ -33,20 +33,30 @@ export class CommunicationRepository implements ICommunicationRepository {
       status,
       tipo_canal,
       autor,
-      startDate,
-      endDate,
+      data_criacao_inicio,
+      data_criacao_fim,
+      data_envio_inicio,
+      data_envio_fim,
       limit = 10,
       offset = 0,
     } = filter;
 
     const where: any = {};
+
     if (status) where.status = status;
     if (tipo_canal) where.tipo_canal = tipo_canal;
     if (autor) where.autor = autor;
-    if (startDate || endDate) {
+
+    if (data_criacao_inicio || data_criacao_fim) {
       where.data_criacao = {};
-      if (startDate) where.data_criacao.gte = new Date(startDate);
-      if (endDate) where.data_criacao.lte = new Date(endDate);
+      if (data_criacao_inicio) where.data_criacao.gte = new Date(data_criacao_inicio);
+      if (data_criacao_fim) where.data_criacao.lte = new Date(data_criacao_fim);
+    }
+
+    if (data_envio_inicio || data_envio_fim) {
+      where.data_envio = {};
+      if (data_envio_inicio) where.data_envio.gte = new Date(data_envio_inicio);
+      if (data_envio_fim) where.data_envio.lte = new Date(data_envio_fim);
     }
 
     const [dataRaw, total] = await Promise.all([
