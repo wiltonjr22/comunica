@@ -88,6 +88,11 @@ docker-compose up --build
   docker-compose run --rm migrate
   ```
 
+  - To run seed manually:
+  ```bash
+  docker-compose run --rm seed
+  ```
+
 ---
 
 ### 4. Access Swagger Documentation
