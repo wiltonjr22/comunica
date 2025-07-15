@@ -1,26 +1,10 @@
 import {
-  Body,
-  ClassSerializerInterceptor,
   Controller,
-  Get,
-  Put,
-  Request,
-  UseGuards,
-  UseInterceptors
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from "@nestjs/swagger";
-import { JwtAuthGuard } from "../../../auth/application/services/jwt-auth.guard";
+import { ApiTags } from "@nestjs/swagger";
 import { IUserService } from '../../application/interfaces/user.service.interface';
 @ApiTags('user')
 @Controller('user')
 export class UsersController {
   constructor(private readonly usersService: IUserService) { }
-
-  @UseGuards(JwtAuthGuard)
-  @ApiSecurity('access-key')
-  @UseInterceptors(ClassSerializerInterceptor)
-  @Get('me')
-  public async me(@Request() req) {
-    return req.user;
-  }
 }
