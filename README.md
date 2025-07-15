@@ -2,16 +2,66 @@
 
 A robust device management API built with NestJS, Prisma, and PostgreSQL, following Clean Code and SOLID principles.
 
+## 🧱 Visão Geral
+
+- 🔐 Autenticação via JWT
+- 🎯 Filtros avançados (com `between`) para consultas
+- 📦 Integração fake com API externa
+- 📑 Documentação via Swagger
+- 🧪 Testes automatizados com Jest
+- 📦 Rodando com Docker Compose
+- 🧼 Padrões SOLID e Clean Code
+- 🧰 Patterns: Factory, Repository, Interface Segregation
+
 ---
 
-## 🛠️ Technologies
+## 🚀 Tecnologias
 
-- [NestJS](https://nestjs.com/)
-- [Prisma ORM](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Docker](https://www.docker.com/)
-- [Jest](https://jestjs.io/) (testing)
-- [Swagger](https://swagger.io/) (API documentation)
+- **NestJS** – framework principal
+- **Prisma ORM** – acesso a banco de dados
+- **PostgreSQL** – banco de dados relacional
+- **Swagger** – documentação automática
+- **JWT** – autenticação segura
+- **Docker / Docker Compose** – ambiente containerizado
+- **Jest** – testes automatizados
+
+---
+
+## 🧭 Estrutura do Projeto
+
+```bash
+📦 src/
+│
+├── contexts/                # Módulos principais da aplicação
+│   ├── auth/                # JWT, guards, login
+│   ├── communication/       # CRUD de comunicados
+│   ├── fake-integration/    # Integração externa simulada
+│   ├── user/                # Dados do usuário logado
+│   ├── health/              # Health check
+│   └── contexts.module.ts
+│
+├── resources/               # Recursos compartilhados
+│   ├── database/            # Configuração do Prisma
+│   ├── json-placeholder/    # Dados fake externos
+│   ├── swagger/             # Setup da documentação Swagger
+│   ├── errors-handler.ts    # Manipulação global de erros
+│   └── resources.module.ts
+│
+├── app.module.ts
+├── main.ts
+│
+📦 prisma/
+│   ├── schema.prisma        # Modelo do banco
+│   ├── migrations/          # Migrations geradas
+│   └── seed.ts              # Popula base de dados
+
+---
+
+## 📋 Notes
+
+- Follow the `.env.example` pattern for environment configuration.
+- The project is ready for both production and development; just adjust `DATABASE_URL` as needed.
+- For Clean Code and SOLID examples, check the service, repository, and controller files.
 
 ---
 
@@ -79,74 +129,3 @@ npm run t
 ```
 
 - Tests cover controllers and services, using mocks for external dependencies.
-
----
-
-# 📢 Comunicados API · NestJS + Prisma
-
-API robusta e segura para gerenciamento de comunicados, construída com **NestJS**, **Prisma**, **Docker**, seguindo os princípios de **SOLID**, **Clean Architecture** e com integração a sistemas externos.
-
----
-
-## 🧱 Visão Geral
-
-- 🔐 Autenticação via JWT
-- 🎯 Filtros avançados (com `between`) para consultas
-- 📦 Integração fake com API externa
-- 📑 Documentação via Swagger
-- 🧪 Testes automatizados com Jest
-- 📦 Rodando com Docker Compose
-- 🧼 Padrões SOLID e Clean Code
-- 🧰 Patterns: Factory, Repository, Interface Segregation
-
----
-
-## 🚀 Tecnologias
-
-- **NestJS** – framework principal
-- **Prisma ORM** – acesso a banco de dados
-- **PostgreSQL** – banco de dados relacional
-- **Swagger** – documentação automática
-- **JWT** – autenticação segura
-- **Docker / Docker Compose** – ambiente containerizado
-- **Jest** – testes automatizados
-
----
-
-## 🧭 Estrutura do Projeto
-
-```bash
-📦 src/
-│
-├── contexts/                # Módulos principais da aplicação
-│   ├── auth/                # JWT, guards, login
-│   ├── communication/       # CRUD de comunicados
-│   ├── fake-integration/    # Integração externa simulada
-│   ├── user/                # Dados do usuário logado
-│   ├── health/              # Health check
-│   └── contexts.module.ts
-│
-├── resources/               # Recursos compartilhados
-│   ├── database/            # Configuração do Prisma
-│   ├── json-placeholder/    # Dados fake externos
-│   ├── swagger/             # Setup da documentação Swagger
-│   ├── errors-handler.ts    # Manipulação global de erros
-│   └── resources.module.ts
-│
-├── app.module.ts
-├── main.ts
-│
-📦 prisma/
-│   ├── schema.prisma        # Modelo do banco
-│   ├── migrations/          # Migrations geradas
-│   └── seed.ts              # Popula base de dados
-
----
-
-## 📋 Notes
-
-- Follow the `.env.example` pattern for environment configuration.
-- The project is ready for both production and development; just adjust `DATABASE_URL` as needed.
-- For Clean Code and SOLID examples, check the service, repository, and controller files.
-
----
