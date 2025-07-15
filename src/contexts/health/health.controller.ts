@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Public } from './public.jwt';
+import { Public } from '../auth/presentation/controllers/public.jwt';
 
 @Controller('health')
 export class HealthController {
