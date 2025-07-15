@@ -12,3 +12,9 @@ export class LoginDto {
   @IsNotEmpty()
   password: string;
 }
+
+
+export class LoginResponseDto {
+  @ApiProperty({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', description: 'JWT de acesso' })
+  access_token: string;
+}
